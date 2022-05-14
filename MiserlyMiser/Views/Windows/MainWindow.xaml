@@ -9,16 +9,36 @@
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
+            <MenuItem Header="Файл">
                 <MenuItem Header="Close" Command="{StaticResource CloseWindowCommand}"/>
             </MenuItem>
-            <MenuItem Header="Help"/>
+            <MenuItem Header="Справочники"/>
+            <MenuItem Header="Помощь"/>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem Content="{Binding Status}"/>
         </StatusBar>
         <Grid>
-            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0, 5"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="Обзор"/>
+                <Button Content="Категории"/>
+                <Button Content="Транзакции"/>
+                <Button Content="Счета"/>
+                <Button Content="Бюджеты"/>
+                <Button Content="Цели"/>
+                <Button Content="Валюты"/>
+                <Button Content="Отчеты"/>
+            </StackPanel>
+            <UserControl Grid.Column="1" Content="{Binding}"/>
         </Grid>
     </DockPanel>
 </Window>
