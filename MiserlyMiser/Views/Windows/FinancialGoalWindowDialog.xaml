@@ -1,0 +1,65 @@
+﻿<Window x:Class="MiserlyMiser.Views.Windows.FinancialGoalWindowDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
+        mc:Ignorable="d"
+        Title="FinancialGoalWindowDialog" Height="450" Width="358"
+        FontSize="14">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem Content="Bin"/>
+        </StatusBar>
+        <Grid Margin="5, 0">
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="0, 5"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="0, 5"/>
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="0, 5"/>
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="150"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Новая цель" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Название"/>
+                <TextBox/>
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="Целевая сумма"/>
+                <TextBox/>
+            </StackPanel>
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="Уже накоплено"/>
+                <TextBox/>
+            </StackPanel>
+            <StackPanel Grid.Row="4">
+                <TextBlock Text="Желаемая дата достижения цели"/>
+                <DatePicker Margin="0, 5"/>
+            </StackPanel>
+            <StackPanel Grid.Row="5">
+                <TextBlock Text="Описание"/>
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60"/>
+            </StackPanel>
+            <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Отменить" Margin="5, 0"/>
+                <Button Content="Применить"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>
