@@ -1,15 +1,15 @@
-﻿<Window x:Class="MiserlyMiser.Views.Windows.TransactionWindow"
+﻿<Window x:Class="MiserlyMiser.Views.Windows.BudgetWindowDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
         mc:Ignorable="d"
-        Title="TransactionWindow" Height="619" Width="439"
+        Title="BudgetWindowDialog" Height="529" Width="570"
         FontSize="14">
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="{Binding}"/>
+            <StatusBarItem Content="Bin"/>
         </StatusBar>
         <Grid Margin="5, 0">
             <Grid.Resources>
@@ -35,49 +35,46 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Новая транзакция" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
+            <TextBlock Text="Новый бюджет" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Название"/>
                 <TextBox/>
             </StackPanel>
-            <GroupBox Grid.Row="2" Header="Тип">
-                <StackPanel Margin="5">
-                    <RadioButton Content="Доход"/>
-                    <RadioButton Content="Расход" Margin="0, 5"/>
-                    <RadioButton Content="Перевод"/>
-                </StackPanel>
-            </GroupBox>
-            <StackPanel Grid.Row="3">
+            <StackPanel Grid.Row="2">
                 <TextBlock Text="Привязать ко счету"/>
                 <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
             </StackPanel>
-            <StackPanel Grid.Row="4">
-                <TextBlock Text="Валюта"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
-            </StackPanel>
-            <StackPanel Grid.Row="5">
-                <TextBlock Text="Способ оплаты"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
-            </StackPanel>
-            <StackPanel Grid.Row="6">
-                <TextBlock Text="Статус"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
-            </StackPanel>
-            <DockPanel Grid.Row="7">
+            <DockPanel Grid.Row="3">
                 <TextBlock Text="Категория" DockPanel.Dock="Top"/>
                 <UniformGrid Rows="1">
                     <TextBox/>
                     <Button Content="Выбрать" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </UniformGrid>
             </DockPanel>
-            <StackPanel Grid.Row="8">
+            <StackPanel Grid.Row="4">
                 <TextBlock Text="Сумма"/>
                 <TextBox/>
             </StackPanel>
-            <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Row="5">
+                <TextBlock Text="Период"/>
+                <UniformGrid Rows="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="От" VerticalAlignment="Center" Margin="5, 0"/>
+                        <DatePicker Margin="0, 5"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="До" VerticalAlignment="Center" Margin="5, 0"/>
+                        <DatePicker Margin="0, 5"/>
+                    </StackPanel>
+                </UniformGrid>
+                
+            </StackPanel>
+            <StackPanel Grid.Row="6">
+                <TextBlock Text="Описание"/>
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60"/>
+            </StackPanel>
+            <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Отменить" Margin="5, 0"/>
                 <Button Content="Применить"/>
             </StackPanel>
