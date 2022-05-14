@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiserlyMiser.Models.DataContexts;
+using MiserlyMiser.Models.Repositories;
+using MiserlyMiser.Models.Repositories.Interfaces;
 using MiserlyMiser.Models.Services;
 using MiserlyMiser.ViewModels;
 using System;
@@ -28,7 +31,9 @@ namespace MiserlyMiser
         public static IServiceProvider Services => Host.Services;
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
-           .AddServices()
+           .AddDbContext<MiserlyMiserDataContext>()
+            .AddScoped(typeof(ICrudRepository<>), typeof(DefaultCrudRepository<>))
+            .AddServices()
            .AddViewModels()
         ;
 
