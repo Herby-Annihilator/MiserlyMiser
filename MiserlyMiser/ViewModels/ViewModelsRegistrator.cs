@@ -11,6 +11,8 @@ namespace MiserlyMiser.ViewModels
            .AddSingleton<MainWindowViewModel>()
             .AddScoped<CashWindowViewModel>()
             .AddScoped<CashesPageViewModel>()
+            .AddScoped<FinancialGoalWindowDialogViewModel>()
+            .AddScoped<FinancialPageViewModel>()
         ;
     }
 }

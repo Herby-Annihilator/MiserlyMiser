@@ -29,6 +29,7 @@ namespace MiserlyMiser.ViewModels
         public string Status { get => _status; set => Set(ref _status, value); }
 
         public string CashViewName => nameof(CashesPage);
+        public string FinancialGoalsViewName => nameof(FinancialGoalPage);
         #endregion
 
         #region Commands
@@ -43,6 +44,10 @@ namespace MiserlyMiser.ViewModels
                     if (name == CashViewName)
                     {
                         CurrentViewModel = App.Services.GetRequiredService<CashesPageViewModel>();
+                    }
+                    else if (name == FinancialGoalsViewName)
+                    {
+                        CurrentViewModel = App.Services.GetRequiredService<FinancialPageViewModel>();
                     }
                     Status = "Переключение представления";
                 }               

@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
         mc:Ignorable="d"
         Title="CashWindowDialog" Height="450" Width="400"
-        FontSize="14">
+        FontSize="14"
+        xmlns:viewmodels="clr-namespace:MiserlyMiser.ViewModels"
+        d:DataContext="{d:DesignInstance viewmodels:CashWindowViewModel, IsDesignTimeCreatable=True}"
+        >
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem Content="{Binding}"/>
@@ -38,27 +41,29 @@
             <TextBlock Text="Новый счет" FontSize="16" HorizontalAlignment="Center" Grid.Row="0" Margin="0, 10"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Название"/>
-                <TextBox/>
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Тип"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True" 
+                          ItemsSource="{Binding CashTypes}" SelectedItem="{Binding SelectedCashType}"/>
             </StackPanel>
             <StackPanel Grid.Row="3">
                 <TextBlock Text="Валюта"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True" ItemsSource="{Binding Currencies}"
+                          SelectedItem="{Binding SelectedCurrency}"/>
             </StackPanel>
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Сумма"/>
-                <TextBox/>
+                <TextBox Text="{Binding Money, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="5">
                 <TextBlock Text="Описание"/>
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60"/>
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Отменить" Margin="5, 0"/>
-                <Button Content="Применить"/>
+                <Button Content="Отменить" Margin="5, 0" Command="{Binding CancelCommand}"/>
+                <Button Content="Применить" Command="{Binding ApplyCommand}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

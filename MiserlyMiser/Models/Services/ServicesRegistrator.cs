@@ -12,7 +12,8 @@ namespace MiserlyMiser.Models.Services
     public static class ServicesRegistrator
     {
         public static IServiceCollection AddServices(this IServiceCollection services) => services
-            .AddScoped<IUserDialog<Cash>, DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
+            .AddScoped<DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
+            .AddScoped<DefaultUserDialog<FinancialGoalWindowDialogViewModel, FinancialGoalWindowDialog, FinancialGoal>>()
         // Register your services here
         ;
     }

@@ -8,10 +8,21 @@ using System.Threading.Tasks;
 
 namespace MiserlyMiser.ViewModels.Base
 {
-    public class UserDialogViewModel<T> : ClosableViewModel where T : Entity
+    public abstract class UserDialogViewModel<T> : ClosableViewModel where T : Entity
     {
         protected EntityDto<T> _dto;
-        public virtual EntityDto<T> Dto { get => _dto; set => _dto = value; }
+        public virtual EntityDto<T> Dto 
+        { 
+            get => _dto;
+            set
+            {
+                _dto = value;
+                SemanticString = _dto.SemanticString;
+                _isCreate = _dto.Entity == null ? true : false;
+                SetProperties();
+            }
+        }
+        public abstract void SetProperties();
 
         protected string _status = "";
         public virtual string Status { get => _status; set => Set(ref _status, value); }

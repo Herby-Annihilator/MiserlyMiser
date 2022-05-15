@@ -23,12 +23,6 @@ namespace MiserlyMiser.ViewModels
 
             CashTypes = new ObservableCollection<CashType>(_cashTypeRepository.GetAll());
             Currencies = new ObservableCollection<Currency>(_currencyRepository.GetAll());
-            SemanticString = Dto.SemanticString;
-
-            if (Dto.Entity == null)
-                _isCreate = true;
-            else
-                _isCreate = false;
 
             ApplyCommand = new LambdaCommand(OnApplyCommandExecuted, CanApplyCommandExecute);
             CancelCommand = new LambdaCommand(OnCancelCommandExecuted, CanCancelCommandExecute);
@@ -45,11 +39,11 @@ namespace MiserlyMiser.ViewModels
         private string _money = "";
         public string Money { get => _money; set => Set(ref _money, value); }
 
-        public ObservableCollection<CashType> CashTypes { get; }
+        public ObservableCollection<CashType> CashTypes { get; private set; }
         private CashType _selectedCashType;
         public CashType SelectedCashType { get => _selectedCashType; set => Set(ref _selectedCashType, value); }
 
-        public ObservableCollection<Currency> Currencies { get; }
+        public ObservableCollection<Currency> Currencies { get; private set; }
         private Currency _selectedCurrency;
         public Currency SelectedCurrency { get => _selectedCurrency; set => Set(ref _selectedCurrency, value); }
 
@@ -72,7 +66,7 @@ namespace MiserlyMiser.ViewModels
                 cash.Name = Name;
                 cash.Currency = SelectedCurrency;
                 cash.CurrencyId = SelectedCurrency.Id;
-                cash.Money = Convert.ToDecimal(Money);
+                cash.Money = Convert.ToDecimal(Money.Replace('.', ','));
                 cash.CashType = SelectedCashType;
                 cash.CashTypeId = SelectedCashType.Id;
                 if (_isCreate)
@@ -99,5 +93,15 @@ namespace MiserlyMiser.ViewModels
         #endregion
 
         #endregion
+
+
+        public override void SetProperties()
+        {
+            if (Dto == null)
+                return;
+            Name = Dto.Entity?.Name;
+            Description = "";
+            Money = Dto.Entity?.Money.ToString();
+        }
     }
 }

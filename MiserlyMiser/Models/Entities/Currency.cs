@@ -12,5 +12,6 @@ namespace MiserlyMiser.Models.Entities
         public string FullName { get; set; } = "";
         public string ShortName { get; set; } = "";
         public ICollection<Cash>? Cashes { get; set; }
+        public override string ToString() => FullName;
     }
 }

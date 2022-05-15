@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
         mc:Ignorable="d"
         Title="FinancialGoalWindowDialog" Height="450" Width="358"
-        FontSize="14">
+        FontSize="14"
+        xmlns:viewmodels="clr-namespace:MiserlyMiser.ViewModels"
+        d:DataContext="{d:DesignInstance viewmodels:FinancialGoalWindowDialogViewModel, IsDesignTimeCreatable=True}"
+        >
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="Bin"/>
+            <StatusBarItem Content="{Binding Status}"/>
         </StatusBar>
         <Grid Margin="5, 0">
             <Grid.Resources>
@@ -38,27 +41,28 @@
             <TextBlock Text="Новая цель" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Название"/>
-                <TextBox/>
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Целевая сумма"/>
-                <TextBox/>
+                <TextBox Text="{Binding DesiredAmountOfMoney, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="3">
                 <TextBlock Text="Уже накоплено"/>
-                <TextBox/>
+                <TextBox Text="{Binding CurrentAmountOfMoney, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Желаемая дата достижения цели"/>
-                <DatePicker Margin="0, 5"/>
+                <DatePicker Margin="0, 5" SelectedDate="{Binding DesiredDate}" DisplayDate="{Binding DesiredDate}"/>
             </StackPanel>
             <StackPanel Grid.Row="5">
                 <TextBlock Text="Описание"/>
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60"/>
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="60" 
+                         Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Отменить" Margin="5, 0"/>
-                <Button Content="Применить"/>
+                <Button Content="Отменить" Margin="5, 0" Command="{Binding CancelCommand}"/>
+                <Button Content="Применить" Command="{Binding ApplyCommand}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

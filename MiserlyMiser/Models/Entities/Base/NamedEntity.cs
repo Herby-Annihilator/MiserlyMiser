@@ -9,5 +9,6 @@ namespace MiserlyMiser.Models.Entities.Base
     public class NamedEntity : Entity
     {
         public virtual string Name { get; set; } = "";
+        public override string ToString() => Name;
     }
 }
