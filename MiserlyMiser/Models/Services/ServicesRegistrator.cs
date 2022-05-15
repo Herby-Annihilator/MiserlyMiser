@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MiserlyMiser.Models.Entities;
+using MiserlyMiser.Models.Services.Interfaces;
+using MiserlyMiser.ViewModels;
+using MiserlyMiser.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +12,7 @@ namespace MiserlyMiser.Models.Services
     public static class ServicesRegistrator
     {
         public static IServiceCollection AddServices(this IServiceCollection services) => services
+            .AddScoped<IUserDialog<Cash>, DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
         // Register your services here
         ;
     }

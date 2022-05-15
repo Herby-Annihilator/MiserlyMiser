@@ -9,6 +9,7 @@ namespace MiserlyMiser.ViewModels
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
            .AddSingleton<MainWindowViewModel>()
+            .AddScoped<CashWindowViewModel>()
             .AddScoped<CashesPageViewModel>()
         ;
     }
