@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MiserlyMiser.Models.Services.Interfaces
 {
-    public interface IPageViewer
+    public interface INavigationService
     {
-        void View();
+        void Navigate();
     }
 }

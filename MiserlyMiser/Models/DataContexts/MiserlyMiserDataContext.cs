@@ -33,7 +33,7 @@ namespace MiserlyMiser.Models.DataContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=MiserlyMiser;Username=postgres;Password=postgres");
+            optionsBuilder.UseNpgsql("Host=192.168.1.133;Port=5432;Database=MiserlyMiser;Username=postgres;Password=qwerty123@");
             base.OnConfiguring(optionsBuilder);
         }
     }

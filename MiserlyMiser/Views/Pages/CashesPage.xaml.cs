@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MiserlyMiser.Pages
+namespace MiserlyMiser.Views.Pages
 {
     /// <summary>
     /// Логика взаимодействия для CashesPage.xaml
     /// </summary>
-    public partial class CashesPage : Page
+    public partial class CashesPage : UserControl
     {
         public CashesPage()
         {
