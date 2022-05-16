@@ -40,10 +40,12 @@ namespace MiserlyMiser.ViewModels
         {
             IUserDialog<Cash> userDialog = 
                 App.Services.GetRequiredService<DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>();
-            userDialog.Show(new EntityDto<Cash>("Новый счет", null, _cashRepository));
-            var cashes = await _cashRepository.GetAllAsync();
-            if (cashes != null && cashes.Count > 0)
-                Cashes.Add(cashes.Last());
+            if (userDialog.Show(new EntityDto<Cash>("Новый счет", null, _cashRepository)))
+            {
+                var cashes = await _cashRepository.GetAllAsync();
+                if (cashes != null && cashes.Count > 0)
+                    Cashes.Add(cashes.Last());
+            }
         }
         private bool CanAddCashCommandExecute(object p)
         {

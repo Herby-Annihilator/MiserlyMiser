@@ -12,6 +12,7 @@ namespace MiserlyMiser.Models.DataContexts
     {
         public MiserlyMiserDataContext() : base()
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         #region DbSets

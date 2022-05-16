@@ -36,12 +36,15 @@ namespace MiserlyMiser
             .AddScoped(typeof(ICrudRepository<>), typeof(DefaultCrudRepository<>))
             .AddScoped<ICrudRepository<Cash>, CashRepository>()
             .AddScoped<ICrudRepository<Transaction>, TransactionRepository>()
+            .AddScoped<ITransactionRepository, TransactionRepository>()
+            .AddScoped<ICrudRepository<FinancialGoal>, FinancialGoalRepository>()
             .AddServices()
            .AddViewModels()
         ;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            
             var host = Host;
 
             base.OnStartup(e);

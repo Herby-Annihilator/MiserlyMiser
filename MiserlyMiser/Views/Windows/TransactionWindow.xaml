@@ -62,7 +62,7 @@
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Валюта"/>
                 <TextBox  IsReadOnly="True"
-                           Text="{Binding SelectedCurrency}"/>
+                           Text="{Binding SelectedCurrency.FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="5">
                 <TextBlock Text="Способ оплаты"/>

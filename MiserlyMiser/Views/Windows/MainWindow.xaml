@@ -34,7 +34,7 @@
                 </StackPanel.Resources>
                 <Button Content="Обзор"/>
                 <Button Content="Категории"/>
-                <Button Content="Транзакции"/>
+                <Button Content="Транзакции" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding TransactionsViewName}"/>
                 <Button Content="Счета" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding CashViewName}"/>
                 <Button Content="Бюджеты"/>
                 <Button Content="Цели" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding FinancialGoalsViewName}"/>
@@ -49,6 +49,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewmodels:FinancialPageViewModel}">
                         <pages:FinancialGoalPage/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:TransactionPageViewModel}">
+                        <pages:TransactionPage/>
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentControl Content="{Binding CurrentViewModel}"/>

@@ -38,10 +38,12 @@ namespace MiserlyMiser.ViewModels
         private async void OnAddGoalCommandExecuted(object p)
         {
             IUserDialog<FinancialGoal> userDialog = App.Services.GetRequiredService<DefaultUserDialog<FinancialGoalWindowDialogViewModel, FinancialGoalWindowDialog, FinancialGoal>>();
-            userDialog.Show(new Models.Dto.EntityDto<FinancialGoal>("Новая цель", null, _repository));
-            var goals = await _repository.GetAllAsync();
-            if (goals != null && goals.Count > 0)
-                FinancialGoals.Add(goals.Last());
+            if (userDialog.Show(new Models.Dto.EntityDto<FinancialGoal>("Новая цель", null, _repository)))
+            {
+                var goals = await _repository.GetAllAsync();
+                if (goals != null && goals.Count > 0)
+                    FinancialGoals.Add(goals.Last());
+            }
         }
         private bool CanAddGoalCommandExecute(object p) => true;
 

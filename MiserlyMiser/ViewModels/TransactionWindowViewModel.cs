@@ -60,7 +60,7 @@ namespace MiserlyMiser.ViewModels
             set
             {
                 Set(ref _selectedCash, value);
-                SelectedCurrency = _selectedCash.Currency;
+                SelectedCurrency = _selectedCash?.Currency;
             }
         }
 

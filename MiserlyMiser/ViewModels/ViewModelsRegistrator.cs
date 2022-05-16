@@ -14,6 +14,7 @@ namespace MiserlyMiser.ViewModels
             .AddScoped<FinancialGoalWindowDialogViewModel>()
             .AddScoped<FinancialPageViewModel>()
             .AddScoped<TransactionWindowViewModel>()
+            .AddScoped<TransactionPageViewModel>()
         ;
     }
 }
