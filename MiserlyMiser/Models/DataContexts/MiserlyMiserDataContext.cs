@@ -27,7 +27,6 @@ namespace MiserlyMiser.Models.DataContexts
         public DbSet<Period> Periods { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionStatus> TransactionStatuses { get; set; }
-        public DbSet<TransactionType> TransactionTypes { get; set; }
 
         #endregion
 
@@ -35,6 +34,14 @@ namespace MiserlyMiser.Models.DataContexts
         {
             optionsBuilder.UseNpgsql("Host=192.168.1.133;Port=5432;Database=MiserlyMiser;Username=postgres;Password=qwerty123@");
             base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.TransactionType)
+                .HasConversion<string>();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

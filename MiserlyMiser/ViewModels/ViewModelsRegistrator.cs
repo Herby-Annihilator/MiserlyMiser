@@ -13,6 +13,7 @@ namespace MiserlyMiser.ViewModels
             .AddScoped<CashesPageViewModel>()
             .AddScoped<FinancialGoalWindowDialogViewModel>()
             .AddScoped<FinancialPageViewModel>()
+            .AddScoped<TransactionWindowViewModel>()
         ;
     }
 }

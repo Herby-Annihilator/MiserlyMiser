@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
         mc:Ignorable="d"
-        Title="TransactionWindow" Height="619" Width="439"
-        FontSize="14">
+        Title="TransactionWindow" Height="635" Width="439"
+        FontSize="14"
+        xmlns:viewmodels="clr-namespace:MiserlyMiser.ViewModels"
+        d:DataContext="{d:DesignInstance viewmodels:TransactionWindowViewModel, IsDesignTimeCreatable=True}"
+        >
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="{Binding}"/>
+            <StatusBarItem Content="{Binding Status}"/>
         </StatusBar>
         <Grid Margin="5, 0">
             <Grid.Resources>
@@ -41,45 +44,50 @@
             <TextBlock Text="Новая транзакция" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Название"/>
-                <TextBox/>
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <GroupBox Grid.Row="2" Header="Тип">
                 <StackPanel Margin="5">
-                    <RadioButton Content="Доход"/>
-                    <RadioButton Content="Расход" Margin="0, 5"/>
-                    <RadioButton Content="Перевод"/>
+                    <RadioButton Content="Доход" IsChecked="{Binding IsIncome}" 
+                                 Command="{Binding SelectRadioButtonCommand}" CommandParameter="{Binding Income}"/>
+                    <RadioButton Content="Расход" Margin="0, 5" IsChecked="{Binding IsSpending}"
+                                 Command="{Binding SelectRadioButtonCommand}" CommandParameter="{Binding Spending}"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel Grid.Row="3">
                 <TextBlock Text="Привязать ко счету"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True"
+                          ItemsSource="{Binding Cashes}" SelectedItem="{Binding SelectedCash}"/>
             </StackPanel>
             <StackPanel Grid.Row="4">
                 <TextBlock Text="Валюта"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <TextBox  IsReadOnly="True"
+                           Text="{Binding SelectedCurrency}"/>
             </StackPanel>
             <StackPanel Grid.Row="5">
                 <TextBlock Text="Способ оплаты"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True"
+                          ItemsSource="{Binding PaymentTypes}" SelectedItem="{Binding SelectedPaymentType}"/>
             </StackPanel>
             <StackPanel Grid.Row="6">
                 <TextBlock Text="Статус"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True"
+                          ItemsSource="{Binding TransactionStatuses}" SelectedItem="{Binding SelectedTransactionStatus}"/>
             </StackPanel>
             <DockPanel Grid.Row="7">
                 <TextBlock Text="Категория" DockPanel.Dock="Top"/>
                 <UniformGrid Rows="1">
-                    <TextBox/>
+                    <TextBox Text="{Binding SelectedCategory}" IsReadOnly="True"/>
                     <Button Content="Выбрать" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 </UniformGrid>
             </DockPanel>
             <StackPanel Grid.Row="8">
                 <TextBlock Text="Сумма"/>
-                <TextBox/>
+                <TextBox Text="{Binding Money, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Отменить" Margin="5, 0"/>
-                <Button Content="Применить"/>
+                <Button Content="Отменить" Margin="5, 0" Command="{Binding CancelCommand}"/>
+                <Button Content="Применить" Command="{Binding ApplyCommand}"/>
             </StackPanel>
         </Grid>
     </DockPanel>

@@ -15,7 +15,6 @@ namespace MiserlyMiser.Models.Entities
         [Column(TypeName = "money")]
         public decimal Money { get; set; }
         public TransactionType TransactionType { get; set; }
-        public int TransactionTypeId { get; set; }
 
         public TransactionStatus TransactionStatus { get; set; }
         public int TransactionStatusId { get; set; }

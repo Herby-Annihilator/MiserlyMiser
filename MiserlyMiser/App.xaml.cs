@@ -35,6 +35,7 @@ namespace MiserlyMiser
            .AddDbContext<MiserlyMiserDataContext>()
             .AddScoped(typeof(ICrudRepository<>), typeof(DefaultCrudRepository<>))
             .AddScoped<ICrudRepository<Cash>, CashRepository>()
+            .AddScoped<ICrudRepository<Transaction>, TransactionRepository>()
             .AddServices()
            .AddViewModels()
         ;
