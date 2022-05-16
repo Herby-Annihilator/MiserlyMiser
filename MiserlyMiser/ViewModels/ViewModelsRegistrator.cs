@@ -9,12 +9,13 @@ namespace MiserlyMiser.ViewModels
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services) => services
            .AddSingleton<MainWindowViewModel>()
-            .AddScoped<CashWindowViewModel>()
-            .AddScoped<CashesPageViewModel>()
-            .AddScoped<FinancialGoalWindowDialogViewModel>()
-            .AddScoped<FinancialPageViewModel>()
-            .AddScoped<TransactionWindowViewModel>()
-            .AddScoped<TransactionPageViewModel>()
+            .AddTransient<CashWindowViewModel>()
+            .AddTransient<CashesPageViewModel>()
+            .AddTransient<FinancialGoalWindowDialogViewModel>()
+            .AddTransient<FinancialPageViewModel>()
+            .AddTransient<TransactionWindowViewModel>()
+            .AddTransient<TransactionPageViewModel>()
+            .AddTransient<CategoriesPageViewModel>()
         ;
     }
 }

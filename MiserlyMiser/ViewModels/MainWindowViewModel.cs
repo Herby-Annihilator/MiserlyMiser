@@ -31,6 +31,7 @@ namespace MiserlyMiser.ViewModels
         public string CashViewName => nameof(CashesPage);
         public string FinancialGoalsViewName => nameof(FinancialGoalPage);
         public string TransactionsViewName => nameof(TransactionPage);
+        public string CategoriesViewName => nameof(CategoriesPage);
         #endregion
 
         #region Commands
@@ -53,6 +54,10 @@ namespace MiserlyMiser.ViewModels
                     else if (name == TransactionsViewName)
                     {
                         CurrentViewModel = App.Services.GetRequiredService<TransactionPageViewModel>();
+                    }
+                    else if (name == CategoriesViewName)
+                    {
+                        CurrentViewModel = App.Services.GetRequiredService<CategoriesPageViewModel>();
                     }
                     Status = "Переключение представления";
                 }               

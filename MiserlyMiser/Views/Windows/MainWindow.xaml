@@ -33,7 +33,7 @@
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="Обзор"/>
-                <Button Content="Категории"/>
+                <Button Content="Категории" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding CategoriesViewName}"/>
                 <Button Content="Транзакции" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding TransactionsViewName}"/>
                 <Button Content="Счета" Command="{Binding ChangeViewCommand}" CommandParameter="{Binding CashViewName}"/>
                 <Button Content="Бюджеты"/>
@@ -52,6 +52,9 @@
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewmodels:TransactionPageViewModel}">
                         <pages:TransactionPage/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:CategoriesPageViewModel}">
+                        <pages:CategoriesPage/>
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentControl Content="{Binding CurrentViewModel}"/>
