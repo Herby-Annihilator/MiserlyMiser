@@ -17,8 +17,13 @@ namespace MiserlyMiser.ViewModels
         {
             if (e.PropertyName == "IsSelected")
             {
-                SelectedItem = (ViewableCategory)sender;
-            }
+                if (sender is ViewableCategory category)
+                {
+                    SelectedItem = category;
+                    category.IsChecked = true;
+                    category.Children.Traverse(c => c.Children).Each(c => c.IsChecked = true);
+                }
+            }           
         }
     }
 }

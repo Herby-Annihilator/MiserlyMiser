@@ -31,7 +31,7 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Category.Name}"/>
-                        <CheckBox IsChecked="{Binding IsChecked}"/>
+                        <!--<CheckBox IsChecked="{Binding IsChecked}"/>-->
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

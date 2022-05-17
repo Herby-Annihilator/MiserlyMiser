@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MiserlyMiser.ViewModels
 {
-    public class CategoriesPageViewModel : ViewModel
+    public class CategoriesPageViewModel : UserDialogViewModel<Category>
     {
         public CategoriesPageViewModel()
         {
@@ -102,13 +102,13 @@ namespace MiserlyMiser.ViewModels
         {
             if (e.PropertyName == "IsSelected")
             {
-                if (sender is ViewableCategory category)
-                {
-                    SelectedItem = category;
-                    category.IsChecked = true;
-                    category.Children.Traverse(c => c.Children).Each(c => c.IsChecked = true);
-                }                
+                SelectedItem = (ViewableCategory)sender;
             }
+        }
+
+        public override void SetProperties()
+        {
+            
         }
     }   
 

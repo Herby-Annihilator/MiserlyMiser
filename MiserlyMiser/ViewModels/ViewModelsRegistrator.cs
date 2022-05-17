@@ -16,6 +16,9 @@ namespace MiserlyMiser.ViewModels
             .AddTransient<TransactionWindowViewModel>()
             .AddTransient<TransactionPageViewModel>()
             .AddTransient<CategoriesPageViewModel>()
+            .AddTransient<CategoriesCheckingWindowViewModel>()
+            .AddTransient<SelectParentCategoryWindowViewModel>()
+            .AddTransient<SelectChildrenCategoryWindowViewModel>()
         ;
     }
 }
