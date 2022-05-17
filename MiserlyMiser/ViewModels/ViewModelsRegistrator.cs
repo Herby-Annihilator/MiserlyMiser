@@ -19,6 +19,7 @@ namespace MiserlyMiser.ViewModels
             .AddTransient<CategoriesCheckingWindowViewModel>()
             .AddTransient<SelectParentCategoryWindowViewModel>()
             .AddTransient<SelectChildrenCategoryWindowViewModel>()
+            .AddTransient<CategoryDialogWindowViewModel>()
         ;
     }
 }

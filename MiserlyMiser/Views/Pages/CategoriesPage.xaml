@@ -42,7 +42,8 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   CanUserSortColumns="False"
-                  ItemsSource="{Binding Categories}">
+                  ItemsSource="{Binding Categories}"
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Характер" Width="*" Binding="{Binding CategoryCharacter}"/>

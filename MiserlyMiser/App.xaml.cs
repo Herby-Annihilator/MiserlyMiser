@@ -33,11 +33,11 @@ namespace MiserlyMiser
 
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services) => services
            .AddDbContext<MiserlyMiserDataContext>()
-            .AddScoped(typeof(ICrudRepository<>), typeof(DefaultCrudRepository<>))
-            .AddScoped<ICrudRepository<Cash>, CashRepository>()
-            .AddScoped<ICrudRepository<Transaction>, TransactionRepository>()
-            .AddScoped<ITransactionRepository, TransactionRepository>()
-            .AddScoped<ICrudRepository<FinancialGoal>, FinancialGoalRepository>()
+            .AddTransient(typeof(ICrudRepository<>), typeof(DefaultCrudRepository<>))
+            .AddTransient<ICrudRepository<Cash>, CashRepository>()
+            .AddTransient<ICrudRepository<Transaction>, TransactionRepository>()
+            .AddTransient<ITransactionRepository, TransactionRepository>()
+            .AddTransient<ICrudRepository<FinancialGoal>, FinancialGoalRepository>()
             .AddTransient<ICategoryRepository, CategoryRepository>()
             .AddServices()
            .AddViewModels()

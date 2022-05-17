@@ -48,7 +48,10 @@
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Характер категории"/>
                 <ComboBox IsEditable="True" IsTextSearchEnabled="True" ItemsSource="{Binding CategoryCharacters}"
-                          SelectedItem="{Binding SelectedCharacter}" IsEnabled="{Binding IsEnabled}"/>
+                          SelectedItem="{Binding SelectedCharacter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsEnabled="{Binding IsEnabled}" 
+                          Text="{Binding SelectedCharacter.Name, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Name"/>
             </StackPanel>
             <DockPanel Grid.Row="3">
                 <TextBlock Text="Родительская категория" DockPanel.Dock="Top"/>

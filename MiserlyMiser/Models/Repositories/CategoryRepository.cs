@@ -20,6 +20,7 @@ namespace MiserlyMiser.Models.Repositories
         {
             return EntitySet
                 .Include(c => c.Parent)
+                .ThenInclude(p => p.CategoryCharacter)
                 .Include(c => c.ChildCategories)
                 .Include(c => c.CategoryCharacter)
                 .ToArray();

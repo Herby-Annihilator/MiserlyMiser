@@ -1,4 +1,5 @@
 ﻿using MiserlyMiser.Infrastructure.Commands;
+using MiserlyMiser.Models.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace MiserlyMiser.ViewModels
 {
     public class SelectParentCategoryWindowViewModel : CategoriesPageViewModel
     {
-        public SelectParentCategoryWindowViewModel() : base()
+        public SelectParentCategoryWindowViewModel(ICategoryRepository categoryRepository) : base(categoryRepository)
         {
             SelectCategoryCommand = new LambdaCommand(OnSelectCategoryCommandExecuted, CanSelectCategoryCommandExecute);
             CancelCommand = new LambdaCommand(OnCancelCommandExecuted, CanCancelCommandExecute);

@@ -23,10 +23,11 @@ namespace MiserlyMiser.ViewModels
     public class CategoriesPageViewModel : UserDialogViewModel<Category>
     {
         protected ICategoryRepository _categoryRepository;
-        public CategoriesPageViewModel(ICategoryRepository categoryRepository) : base()
+        public CategoriesPageViewModel(ICategoryRepository categoryRepository) : this()
         {
             _categoryRepository = categoryRepository;
-            BuiltViewableCategoriesCollection();           
+            BuiltViewableCategoriesCollection();
+            UpdateCategories();
         }
         public CategoriesPageViewModel()
         {
@@ -55,7 +56,7 @@ namespace MiserlyMiser.ViewModels
             }
         }
 
-        public ObservableCollection<Category> Categories { get; protected set; }
+        public ObservableCollection<Category> Categories { get; protected set; } = new ObservableCollection<Category>();
 
         #region Commands
 
@@ -179,7 +180,14 @@ namespace MiserlyMiser.ViewModels
         {
             Categories.Clear();
             if (SelectedItem == null)
+            {
+                foreach (var item in ViewableCategories)
+                {
+                    if (item.Parent == null)
+                        Categories.Add(item.Category);
+                }
                 return;
+            }               
             else
             {
                 var category = SelectedItem;
@@ -211,8 +219,10 @@ namespace MiserlyMiser.ViewModels
             {
                 viewableCategory = new ViewableCategory() { Category = item };
                 if (item.Parent == null)
+                {
                     ViewableCategories.Add(viewableCategory);
-                AddChildren(viewableCategory, categories);
+                    AddChildren(viewableCategory, categories);
+                }
             }
         }
 
@@ -227,7 +237,7 @@ namespace MiserlyMiser.ViewModels
             ViewableCategory child;
             foreach (Category category in categories)
             {
-                if (category.Id == viewableCategory.Category.Parent?.Id)
+                if (category.Parent?.Id == viewableCategory.Category.Id)
                 {
                     child = new ViewableCategory() { Category = category };
                     child.Parent = viewableCategory;

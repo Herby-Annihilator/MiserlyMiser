@@ -60,7 +60,6 @@ namespace MiserlyMiser.ViewModels
                 if (_parentCategory == null)
                 {
                     IsEnabled = true;
-                    SelectedCharacter = null;
                 }                   
                 else
                 {
@@ -219,9 +218,9 @@ namespace MiserlyMiser.ViewModels
                 return;
             if (Dto.Entity == null)
                 return;
-            Name = Dto.Entity.Name;
-            SelectedCharacter = Dto.Entity.CategoryCharacter;
+            Name = Dto.Entity.Name;           
             ParentCategory = Dto.Entity.Parent;
+            SelectedCharacter = Dto.Entity.CategoryCharacter;
             if (Dto.Entity.ChildCategories != null)
             {
                 foreach (var item in Dto.Entity.ChildCategories)
