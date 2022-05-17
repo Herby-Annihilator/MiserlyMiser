@@ -12,9 +12,9 @@ namespace MiserlyMiser.Models.Services
     public static class ServicesRegistrator
     {
         public static IServiceCollection AddServices(this IServiceCollection services) => services
-            .AddScoped<DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
-            .AddScoped<DefaultUserDialog<FinancialGoalWindowDialogViewModel, FinancialGoalWindowDialog, FinancialGoal>>()
-            .AddScoped<DefaultUserDialog<TransactionWindowViewModel, TransactionWindow, Transaction>>()
+            .AddTransient<DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
+            .AddTransient<DefaultUserDialog<FinancialGoalWindowDialogViewModel, FinancialGoalWindowDialog, FinancialGoal>>()
+            .AddTransient<DefaultUserDialog<TransactionWindowViewModel, TransactionWindow, Transaction>>()
             .AddTransient<DefaultUserDialog<SelectParentCategoryWindowViewModel, SelectParentCategoryWindow, Category>>()
             .AddTransient<DefaultUserDialog<SelectChildrenCategoryWindowViewModel, SelectChildrenCategoriesWindow, Category>>()
             .AddTransient<DefaultUserDialog<CategoryDialogWindowViewModel, CategoryWindowDialog, Category>>()

@@ -77,8 +77,8 @@
                 </UniformGrid>
             </DockPanel>
             <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Отменить" Margin="5, 0"/>
-                <Button Content="Применить"/>
+                <Button Content="Отменить" Margin="5, 0" Command="{Binding CancelCommand}"/>
+                <Button Content="Применить" Command="{Binding ApplyCommand}"/>
             </StackPanel>
         </Grid>
     </DockPanel>
