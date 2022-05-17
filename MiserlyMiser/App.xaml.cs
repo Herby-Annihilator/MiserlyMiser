@@ -38,6 +38,7 @@ namespace MiserlyMiser
             .AddScoped<ICrudRepository<Transaction>, TransactionRepository>()
             .AddScoped<ITransactionRepository, TransactionRepository>()
             .AddScoped<ICrudRepository<FinancialGoal>, FinancialGoalRepository>()
+            .AddTransient<ICategoryRepository, CategoryRepository>()
             .AddServices()
            .AddViewModels()
         ;

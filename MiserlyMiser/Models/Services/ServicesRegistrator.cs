@@ -15,6 +15,8 @@ namespace MiserlyMiser.Models.Services
             .AddScoped<DefaultUserDialog<CashWindowViewModel, CashWindowDialog, Cash>>()
             .AddScoped<DefaultUserDialog<FinancialGoalWindowDialogViewModel, FinancialGoalWindowDialog, FinancialGoal>>()
             .AddScoped<DefaultUserDialog<TransactionWindowViewModel, TransactionWindow, Transaction>>()
+            .AddTransient<DefaultUserDialog<SelectParentCategoryWindowViewModel, SelectParentCategoryWindow, Category>>()
+            .AddTransient<DefaultUserDialog<SelectChildrenCategoryWindowViewModel, SelectChildrenCategoriesWindow, Category>>()
         // Register your services here
         ;
     }

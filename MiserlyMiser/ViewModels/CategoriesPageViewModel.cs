@@ -1,4 +1,6 @@
-﻿using MiserlyMiser.Models.Entities;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MiserlyMiser.Models.Entities;
+using MiserlyMiser.Models.Repositories.Interfaces;
 using MiserlyMiser.ViewModels.Base;
 using MiserlyMiser.ViewModels.ViewableEntities;
 using System;
@@ -14,6 +16,12 @@ namespace MiserlyMiser.ViewModels
 {
     public class CategoriesPageViewModel : UserDialogViewModel<Category>
     {
+        protected ICategoryRepository _categoryRepository;
+        public CategoriesPageViewModel(ICategoryRepository categoryRepository) : base()
+        {
+            _categoryRepository = categoryRepository;
+            BuiltViewableCategoriesCollection();
+        }
         public CategoriesPageViewModel()
         {
             _propertyChangedHandler = new PropertyChangedEventHandler(ItemPropertyChanged);
@@ -21,17 +29,16 @@ namespace MiserlyMiser.ViewModels
             ViewableCategories = new ObservableCollection<ViewableCategory>();
             ViewableCategories.CollectionChanged += _collectionChangedhandler;
             
-            for (int i = 0; i < 5; i++)
-            {
-                ViewableCategories.Add(new ViewableCategory());
-                ViewableCategories[i].Category = new Category() { Name = $"first {i}" };
-                for (int j = 0; j < 5; j++)
-                {
-                    ViewableCategories[i].Children.Add(new ViewableCategory());
-                    ViewableCategories[i].Children[j].Category = new Category() { Name = $"second {j}" };
-                }
-            }
-            
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    ViewableCategories.Add(new ViewableCategory());
+            //    ViewableCategories[i].Category = new Category() { Name = $"first {i}" };
+            //    for (int j = 0; j < 5; j++)
+            //    {
+            //        ViewableCategories[i].Children.Add(new ViewableCategory());
+            //        ViewableCategories[i].Children[j].Category = new Category() { Name = $"second {j}" };
+            //    }
+            //}           
         }
         protected PropertyChangedEventHandler _propertyChangedHandler;
         protected NotifyCollectionChangedEventHandler _collectionChangedhandler;
@@ -109,6 +116,46 @@ namespace MiserlyMiser.ViewModels
         public override void SetProperties()
         {
             
+        }
+
+        protected virtual void BuiltViewableCategoriesCollection()
+        {
+            if (_categoryRepository == null)
+                _categoryRepository = App.Services.GetRequiredService<ICategoryRepository>();
+            ICollection<Category> categories = _categoryRepository.GetAll();
+            ViewableCategory viewableCategory;
+            if (ViewableCategories == null)
+            {
+                ViewableCategories = new ObservableCollection<ViewableCategory>();
+                ViewableCategories.CollectionChanged += _collectionChangedhandler;
+            }
+            foreach (var item in categories)
+            {
+                viewableCategory = new ViewableCategory() { Category = item };
+                if (item.Parent == null)
+                    ViewableCategories.Add(viewableCategory);
+                AddChildren(viewableCategory, categories);
+            }
+        }
+
+        protected static void AddChildren(ViewableCategory viewableCategory, ICollection<Category> categories)
+        {
+            if (categories == null)
+                return;
+            if (viewableCategory == null)
+                return;
+            if (viewableCategory.Category == null)
+                return;
+            ViewableCategory child;
+            foreach (Category category in categories)
+            {
+                if (category.Id == viewableCategory.Category.Parent?.Id)
+                {
+                    child = new ViewableCategory() { Category = category };
+                    viewableCategory.Children.Add(child);
+                    AddChildren(child, categories);
+                }
+            }
         }
     }   
 
