@@ -20,5 +20,16 @@ namespace MiserlyMiser.ViewModels.ViewableEntities
 
         private bool _isSelected = false;
         public bool IsSelected { get => _isSelected; set => Set(ref _isSelected, value);}
+
+        private bool _isChecked = false;
+        public bool IsChecked 
+        { 
+            get => _isChecked;
+            set
+            {
+                Set(ref _isChecked, value);
+                Children.Traverse(c => c.Children).Each(c => c.IsChecked = _isChecked);
+            }
+        }
     }
 }

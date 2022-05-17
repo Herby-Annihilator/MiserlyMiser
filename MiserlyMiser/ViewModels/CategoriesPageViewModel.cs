@@ -33,12 +33,12 @@ namespace MiserlyMiser.ViewModels
             }
             
         }
-        private PropertyChangedEventHandler _propertyChangedHandler;
-        private NotifyCollectionChangedEventHandler _collectionChangedhandler;
+        protected PropertyChangedEventHandler _propertyChangedHandler;
+        protected NotifyCollectionChangedEventHandler _collectionChangedhandler;
 
-        public ObservableCollection<ViewableCategory> ViewableCategories { get; private set; }
+        public ObservableCollection<ViewableCategory> ViewableCategories { get; protected set; }
 
-        private ViewableCategory _selectedItem;
+        protected ViewableCategory _selectedItem;
         public ViewableCategory SelectedItem { get => _selectedItem; set => Set(ref _selectedItem, value); }
 
         public ObservableCollection<Category> Categories
@@ -60,7 +60,7 @@ namespace MiserlyMiser.ViewModels
             }
         }
 
-        private void SubscribePropertyChanged(ViewableCategory item)
+        protected void SubscribePropertyChanged(ViewableCategory item)
         {
             item.PropertyChanged += _propertyChangedHandler;
             item.Children.CollectionChanged += _collectionChangedhandler;
@@ -70,7 +70,7 @@ namespace MiserlyMiser.ViewModels
             }
         }
 
-        private void UnsubscribePropertyChanged(ViewableCategory item)
+        protected void UnsubscribePropertyChanged(ViewableCategory item)
         {
             foreach (var subitem in item.Children)
             {
@@ -80,7 +80,7 @@ namespace MiserlyMiser.ViewModels
             item.PropertyChanged -= _propertyChangedHandler;
         }
 
-        private void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)
             {
@@ -98,11 +98,16 @@ namespace MiserlyMiser.ViewModels
             }
         }
 
-        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsSelected")
             {
-                SelectedItem = (ViewableCategory)sender;
+                if (sender is ViewableCategory category)
+                {
+                    SelectedItem = category;
+                    category.IsChecked = true;
+                    category.Children.Traverse(c => c.Children).Each(c => c.IsChecked = true);
+                }                
             }
         }
     }   
@@ -114,6 +119,7 @@ namespace MiserlyMiser.ViewModels
             List<T> allItems = new List<T>();
             foreach (var item in collection)
             {
+                allItems.Add(item);
                 ICollection<T> children = getChildren(item);
                 if (children != null)
                     allItems.AddRange(children.Traverse(getChildren));
@@ -128,6 +134,14 @@ namespace MiserlyMiser.ViewModels
             foreach (var item in otherCollection)
             {
                 collection.Add(item);
+            }
+        }
+
+        internal static void Each<T>(this IEnumerable<T> collection, Action<T> toDo)
+        {
+            foreach (var item in collection)
+            {
+                toDo(item);
             }
         }
     }
