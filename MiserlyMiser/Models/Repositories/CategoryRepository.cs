@@ -18,12 +18,20 @@ namespace MiserlyMiser.Models.Repositories
 
         public override ICollection<Category> GetAll()
         {
-            return EntitySet.Include(c => c.Parent).Include(c => c.ChildCategories).ToArray();
+            return EntitySet
+                .Include(c => c.Parent)
+                .Include(c => c.ChildCategories)
+                .Include(c => c.CategoryCharacter)
+                .ToArray();
         }
 
         public override Category GetById(int id)
         {
-            return EntitySet.Include(c => c.Parent).Include(c => c.ChildCategories).FirstOrDefault(c => c.Id == id);
+            return EntitySet
+                .Include(c => c.Parent)
+                .Include(c => c.ChildCategories)
+                .Include(c => c.CategoryCharacter)
+                .FirstOrDefault(c => c.Id == id);
         }
     }
 }

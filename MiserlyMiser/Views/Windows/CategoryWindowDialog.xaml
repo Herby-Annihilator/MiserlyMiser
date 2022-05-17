@@ -3,13 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:MiserlyMiser.Views.Windows"
         mc:Ignorable="d"
-        Title="CategoryWindowDialog" Height="349" Width="387"
-        FontSize="14">
+        Title="CategoryWindowDialog" Height="472" Width="387"
+        FontSize="14"
+        xmlns:viewmodels="clr-namespace:MiserlyMiser.ViewModels"
+        d:DataContext="{d:DesignInstance viewmodels:CategoryDialogWindowViewModel, IsDesignTimeCreatable=True}"
+        >
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="Bin"/>
+            <StatusBarItem Content="{Binding Status}"/>
         </StatusBar>
         <Grid Margin="5, 0">
             <Grid.Resources>
@@ -36,24 +40,40 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Новая категория" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
+            <TextBlock Text="{Binding SemanticString, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" HorizontalAlignment="Center" Margin="0, 10" FontSize="16"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Название"/>
-                <TextBox/>
+                <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Grid.Row="2">
-                <TextBlock Text="Родительская категория"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
-            </StackPanel>
-            <StackPanel Grid.Row="3">
                 <TextBlock Text="Характер категории"/>
-                <ComboBox IsEditable="True" IsTextSearchEnabled="True"/>
+                <ComboBox IsEditable="True" IsTextSearchEnabled="True" ItemsSource="{Binding CategoryCharacters}"
+                          SelectedItem="{Binding SelectedCharacter}" IsEnabled="{Binding IsEnabled}"/>
             </StackPanel>
+            <DockPanel Grid.Row="3">
+                <TextBlock Text="Родительская категория" DockPanel.Dock="Top"/>
+                <UniformGrid Rows="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Width="150" Text="{Binding ParentCategory.Name}"/>
+                        <Button Width="32" Height="32" Margin="5, 0" Command="{Binding ClearParentCategoryCommand}">
+                            <Button.Background>
+                                <SolidColorBrush Opacity="0"/>
+                            </Button.Background>
+                            <fa:ImageAwesome  Height="24" Width="24" Icon="Solid_SkullCrossbones" Foreground="Red"/>
+                        </Button>
+                    </StackPanel>
+                    <Button Content="Выбрать" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                            Command="{Binding SelectParentCategoryCommand}"/>
+                </UniformGrid>
+            </DockPanel>
             <DockPanel Grid.Row="4">
                 <TextBlock Text="Дочерние категории" DockPanel.Dock="Top"/>
                 <UniformGrid Rows="1">
-                    <TextBox/>
-                    <Button Content="Выбрать" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <ListBox Margin="0, 5" Height="150" ItemsSource="{Binding ChildCategories}"/>
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Content="Выбрать" Command="{Binding SelectChildCategoriesCommand}"/>
+                        <Button Content="Очистить" Margin="0, 5" Command="{Binding ClearChildCategoriesCommand}"/>
+                    </StackPanel>
                 </UniformGrid>
             </DockPanel>
             <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">

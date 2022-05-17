@@ -1,8 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MiserlyMiser.Infrastructure.Commands;
+using MiserlyMiser.Models.Dto;
 using MiserlyMiser.Models.Entities;
 using MiserlyMiser.Models.Repositories.Interfaces;
+using MiserlyMiser.Models.Services;
+using MiserlyMiser.Models.Services.Interfaces;
 using MiserlyMiser.ViewModels.Base;
 using MiserlyMiser.ViewModels.ViewableEntities;
+using MiserlyMiser.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +16,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MiserlyMiser.ViewModels
 {
@@ -20,7 +26,7 @@ namespace MiserlyMiser.ViewModels
         public CategoriesPageViewModel(ICategoryRepository categoryRepository) : base()
         {
             _categoryRepository = categoryRepository;
-            BuiltViewableCategoriesCollection();
+            BuiltViewableCategoriesCollection();           
         }
         public CategoriesPageViewModel()
         {
@@ -28,17 +34,10 @@ namespace MiserlyMiser.ViewModels
             _collectionChangedhandler = new NotifyCollectionChangedEventHandler(ItemsCollectionChanged);
             ViewableCategories = new ObservableCollection<ViewableCategory>();
             ViewableCategories.CollectionChanged += _collectionChangedhandler;
-            
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    ViewableCategories.Add(new ViewableCategory());
-            //    ViewableCategories[i].Category = new Category() { Name = $"first {i}" };
-            //    for (int j = 0; j < 5; j++)
-            //    {
-            //        ViewableCategories[i].Children.Add(new ViewableCategory());
-            //        ViewableCategories[i].Children[j].Category = new Category() { Name = $"second {j}" };
-            //    }
-            //}           
+
+            CreateCategoryCommand = new LambdaCommand(OnCreateCategoryCommandExecuted, CanCreateCategoryCommandExecute);
+            EditCategoryCommand = new LambdaCommand(OnEditCategoryCommandExecuted, CanEditCategoryCommandExecute);
+            DeleteCategoryCommand = new LambdaCommand(OnDeleteCategoryCommandExecuted, CanDeleteCategoryCommandExecute);         
         }
         protected PropertyChangedEventHandler _propertyChangedHandler;
         protected NotifyCollectionChangedEventHandler _collectionChangedhandler;
@@ -46,26 +45,89 @@ namespace MiserlyMiser.ViewModels
         public ObservableCollection<ViewableCategory> ViewableCategories { get; protected set; }
 
         protected ViewableCategory _selectedItem;
-        public ViewableCategory SelectedItem { get => _selectedItem; set => Set(ref _selectedItem, value); }
-
-        public ObservableCollection<Category> Categories
-        {
-            get
+        public ViewableCategory SelectedItem 
+        { 
+            get => _selectedItem;
+            set
             {
-                ObservableCollection<Category> categories = new ObservableCollection<Category>();
-                if (SelectedItem == null)
-                    return categories;
-                else
-                {
-                    var category = SelectedItem;
-                    foreach (var item in category.Children)
-                    {
-                        categories.Add(item.Category);
-                    }
-                    return categories;
-                }
+                Set(ref _selectedItem, value);
+                UpdateCategories();
             }
         }
+
+        public ObservableCollection<Category> Categories { get; protected set; }
+
+        #region Commands
+
+        #region CreateCategoryCommand
+        public ICommand CreateCategoryCommand { get; }
+        private void OnCreateCategoryCommandExecuted(object p)
+        {
+            try
+            {
+                Status = "";
+                IUserDialog<Category> userDialog = App.Services.GetRequiredService<DefaultUserDialog<CategoryDialogWindowViewModel, CategoryWindowDialog, Category>>();
+                EntityDto<Category> dto = new EntityDto<Category>("Создать категорию", null, _categoryRepository);
+                if (userDialog.Show(dto))
+                {
+                    ViewableCategories.Clear();
+                    BuiltViewableCategoriesCollection();
+                    UpdateCategories();
+                }
+            }
+            catch (Exception ex)
+            {
+                Status = ex.Message;
+            }
+        }
+        private bool CanCreateCategoryCommandExecute(object p) => true;
+        #endregion
+
+        #region EditCategoryCommand
+        public ICommand EditCategoryCommand { get; }
+        private void OnEditCategoryCommandExecuted(object p)
+        {
+            try
+            {
+                Status = "";
+                IUserDialog<Category> userDialog = App.Services.GetRequiredService<DefaultUserDialog<CategoryDialogWindowViewModel, CategoryWindowDialog, Category>>();
+                EntityDto<Category> dto = new EntityDto<Category>("Редактировать категорию", SelectedItem.Category, _categoryRepository);
+                if (userDialog.Show(dto))
+                {
+                    ViewableCategories.Clear();
+                    BuiltViewableCategoriesCollection();
+                    UpdateCategories();
+                }
+            }
+            catch (Exception ex)
+            {
+                Status = ex.Message;
+            }
+        }
+        private bool CanEditCategoryCommandExecute(object p) => SelectedItem != null;
+        #endregion
+
+        #region DeleteCategoryCommand
+        public ICommand DeleteCategoryCommand { get; }
+        private void OnDeleteCategoryCommandExecuted(object p)
+        {
+            try
+            {
+                Status = "";
+                _categoryRepository.Delete(SelectedItem.Category);
+                ViewableCategories.Clear();
+                BuiltViewableCategoriesCollection();
+                UpdateCategories();
+            }
+            catch (Exception ex)
+            {
+                Status = ex.Message;
+            }
+        }
+        private bool CanDeleteCategoryCommandExecute(object p) => SelectedItem != null;
+        #endregion
+
+        #endregion
 
         protected void SubscribePropertyChanged(ViewableCategory item)
         {
@@ -113,6 +175,22 @@ namespace MiserlyMiser.ViewModels
             }
         }
 
+        protected void UpdateCategories()
+        {
+            Categories.Clear();
+            if (SelectedItem == null)
+                return;
+            else
+            {
+                var category = SelectedItem;
+                foreach (var item in category.Children)
+                {
+                    Categories.Add(item.Category);
+                }
+                return;
+            }
+        }
+
         public override void SetProperties()
         {
             
@@ -152,6 +230,7 @@ namespace MiserlyMiser.ViewModels
                 if (category.Id == viewableCategory.Category.Parent?.Id)
                 {
                     child = new ViewableCategory() { Category = category };
+                    child.Parent = viewableCategory;
                     viewableCategory.Children.Add(child);
                     AddChildren(child, categories);
                 }

@@ -17,6 +17,7 @@ namespace MiserlyMiser.Models.Services
             .AddScoped<DefaultUserDialog<TransactionWindowViewModel, TransactionWindow, Transaction>>()
             .AddTransient<DefaultUserDialog<SelectParentCategoryWindowViewModel, SelectParentCategoryWindow, Category>>()
             .AddTransient<DefaultUserDialog<SelectChildrenCategoryWindowViewModel, SelectChildrenCategoriesWindow, Category>>()
+            .AddTransient<DefaultUserDialog<CategoryDialogWindowViewModel, CategoryWindowDialog, Category>>()
         // Register your services here
         ;
     }

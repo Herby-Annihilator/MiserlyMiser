@@ -1,7 +1,12 @@
-﻿using MiserlyMiser.Infrastructure.Commands;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MiserlyMiser.Infrastructure.Commands;
+using MiserlyMiser.Models.Dto;
 using MiserlyMiser.Models.Entities;
 using MiserlyMiser.Models.Repositories.Interfaces;
+using MiserlyMiser.Models.Services;
+using MiserlyMiser.Models.Services.Interfaces;
 using MiserlyMiser.ViewModels.Base;
+using MiserlyMiser.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,8 +22,10 @@ namespace MiserlyMiser.ViewModels
         private ICrudRepository<Cash> _cashRepository;
         private ICrudRepository<PaymentType> _paymentRepository;
         private ICrudRepository<TransactionStatus> _transactionStatusRepository;
-        public TransactionWindowViewModel(ICrudRepository<Cash> cashRepo, ICrudRepository<PaymentType> paymentRepo, ICrudRepository<TransactionStatus> transactionStatusRepo)
+        private ICategoryRepository _categoryRepository;
+        public TransactionWindowViewModel(ICrudRepository<Cash> cashRepo, ICrudRepository<PaymentType> paymentRepo, ICrudRepository<TransactionStatus> transactionStatusRepo, ICategoryRepository categoryRepository)
         {
+            _categoryRepository = categoryRepository;
             _cashRepository = cashRepo;
             _paymentRepository = paymentRepo;
             _transactionStatusRepository = transactionStatusRepo;
@@ -256,7 +263,15 @@ namespace MiserlyMiser.ViewModels
         public ICommand SelectCategoryCommand { get; }
         private void OnSelectCategoryCommandExecuted(object p)
         {
-            OnCloseWindow(new ClosableViewModelEventArgs(false));
+            IUserDialog<Category> userDialog = App.Services.GetRequiredService<DefaultUserDialog<SelectParentCategoryWindowViewModel, SelectParentCategoryWindow, Category>>();
+            EntityDto<Category> dto = new EntityDto<Category>("", null, _categoryRepository);
+            if (userDialog.Show(dto))
+            {
+                if (dto.Entity != null)
+                {
+                    SelectedCategory = dto.Entity;
+                }
+            }
         }
         private bool CanSelectCategoryCommandExecute(object p) => true; 
         #endregion
